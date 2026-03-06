@@ -1,16 +1,21 @@
 extends Node2D
 
+## 战斗舞台场景脚本
+## 管理战斗场景的可视化和战斗逻辑
+
 var battle_manager: BattleManager
+var players: Array[Character] = []
+var monsters: Array[Character] = []
 
 func _ready():
-	print("=== 游戏启动 ===")
+	print("=== 战斗舞台初始化 ===")
 
 	# 创建战斗管理器
 	battle_manager = BattleManager.new()
 	add_child(battle_manager)
 
 	# 创建 4 个玩家
-	var players: Array[Character] = [
+	players = [
 		Player.new("player_001", "战士"),
 		Player.new("player_002", "法师"),
 		Player.new("player_003", "弓箭手"),
@@ -18,7 +23,7 @@ func _ready():
 	]
 
 	# 创建 4 个怪物
-	var monsters: Array[Character] = [
+	monsters = [
 		Monster.new("monster_001", "哥布林", Monster.AIType.AGGRESSIVE),
 		Monster.new("monster_002", "兽人", Monster.AIType.DEFENSIVE),
 		Monster.new("monster_003", "骷髅", Monster.AIType.RANDOM),
