@@ -1,0 +1,11 @@
+class_name TurnEnums
+
+enum ActionResult {
+	SUCCESS,
+	FAILED,
+	CRITICAL,
+	MISSED,
+	REFLECTED,
+	BLOCKED,
+	INSUFFICIENT_RESOURCES,
+}
