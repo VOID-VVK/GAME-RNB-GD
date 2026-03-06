@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://battle_stage_001"]
+
+[node name="BattleStage" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_top = 448.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.290196, 0.290196, 0.290196, 1)
+
+[node name="PlayerPositions" type="Node2D" parent="."]
+
+[node name="Player1" type="Marker2D" parent="PlayerPositions"]
+position = Vector2(250, 250)
+
+[node name="Player2" type="Marker2D" parent="PlayerPositions"]
+position = Vector2(250, 450)
+
+[node name="Player3" type="Marker2D" parent="PlayerPositions"]
+position = Vector2(400, 250)
+
+[node name="Player4" type="Marker2D" parent="PlayerPositions"]
+position = Vector2(400, 450)
+
+[node name="MonsterPositions" type="Node2D" parent="."]
+
+[node name="Monster1" type="Marker2D" parent="MonsterPositions"]
+position = Vector2(750, 250)
+
+[node name="Monster2" type="Marker2D" parent="MonsterPositions"]
+position = Vector2(750, 450)
+
+[node name="Monster3" type="Marker2D" parent="MonsterPositions"]
+position = Vector2(900, 250)
+
+[node name="Monster4" type="Marker2D" parent="MonsterPositions"]
+position = Vector2(900, 450)
