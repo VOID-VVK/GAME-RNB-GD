@@ -7,6 +7,7 @@ extends Node
 # ==================== 信号 ====================
 signal battle_started
 signal battle_ended(result: String)  # "victory" 或 "defeat"
+signal character_turn_started(character: Character)  # 角色回合开始
 
 # ==================== 组件 ====================
 var player_input_controller: PlayerInputController
@@ -110,6 +111,9 @@ func _resolution_phase() -> void:
 ## 获取单个玩家的行动（使用 PlayerInputController）
 func _get_player_action(player: Character) -> BaseAction:
 	print("[%s] 等待玩家输入..." % player.character_name)
+
+	# 发送角色回合开始信号
+	character_turn_started.emit(player)
 
 	var valid_targets = monsters.filter(func(m): return m.stats.is_alive)
 	if valid_targets.is_empty():

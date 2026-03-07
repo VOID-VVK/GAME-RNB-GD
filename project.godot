@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="GAME-RNB-GD"
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -20,7 +24,11 @@ config/icon="res://icon.svg"
 TurnBasedSystem="*res://addons/turn_based_system/turn_based_system.gd"
 EasyTestBridge="*res://addons/easy_test_bridge/easy_test_bridge.gd"
 EasySave="*res://addons/EasySave/easy_save.gd"
-EasyMultiplayer="*res://addons/easy_multiplayer_gd/easy_multiplayer.gd"
+EasyMultiplayer="*uid://dhks55rqo18nu"
+
+[dotnet]
+
+project/assembly_name="GAME-RNB-GD"
 
 [editor_plugins]
 
