@@ -9,119 +9,79 @@ signal battle_started
 signal battle_ended(result: String)  # "victory" 或 "defeat"
 
 # ==================== 组件 ====================
-var turn_system: TurnSystemNode
+var player_input_controller: PlayerInputController
 var players: Array[Character] = []
 var monsters: Array[Character] = []
 
 # ==================== 战斗状态 ====================
 var planned_actions: Array[BaseAction] = []
 var is_battle_active: bool = false
-var current_player_index: int = 0
+var _current_action_data: ActionData = null
 
 # ==================== 初始化 ====================
 func _ready() -> void:
-	# 创建回合制系统节点
-	turn_system = TurnSystemNode.new()
-	add_child(turn_system)
+	# 创建玩家输入控制器
+	player_input_controller = PlayerInputController.new()
+	add_child(player_input_controller)
 
 	# 连接信号
-	turn_system.round_started.connect(_on_round_started)
-	turn_system.round_ended.connect(_on_round_ended)
-	turn_system.phase_changed.connect(_on_phase_changed)
+	player_input_controller.input_completed.connect(_on_player_input_completed)
 
 ## 设置战斗
 func setup_battle(p_players: Array[Character], p_monsters: Array[Character]) -> void:
 	players = p_players
 	monsters = p_monsters
 
-	# 使用 simultaneous 模板（Plan-Resolve 模式）
-	turn_system.configure(TurnTemplates.simultaneous())
-
-	# 设置回调 - 在 Planning 阶段收集行动
-	turn_system.on_player_input = _collect_player_action
-	turn_system.on_ai_decision = _collect_ai_actions
-	# 设置动画回调 - 在 Resolution 阶段执行
-	turn_system.on_animate_batch = _execute_actions_batch
-
-	# 注册阵营
-	var player_faction = SimpleFaction.new("player", players, true)
-	var monster_faction = SimpleFaction.new("monster", monsters, false)
-	turn_system.register_faction(player_faction)
-	turn_system.register_faction(monster_faction)
-
 	print("=== 战斗初始化完成 ===")
 	print("玩家阵营: %d 人" % players.size())
 	print("怪物阵营: %d 只" % monsters.size())
 
-## 开始战斗
+## 开始战斗（手动管理回合循环）
 func start_battle() -> void:
 	is_battle_active = true
 	battle_started.emit()
 	print("\n=== 战斗开始 ===")
-	turn_system.execute_round()
 
-# ==================== 回合制信号处理 ====================
+	var round_number = 1
+	while is_battle_active:
+		await _execute_round(round_number)
+		round_number += 1
 
-func _on_round_started(round_number: int) -> void:
+		# 检查战斗是否结束
+		if _check_battle_end():
+			break
+
+		# 回合间隔
+		await get_tree().create_timer(0.5).timeout
+
+## 执行单个回合
+func _execute_round(round_number: int) -> void:
 	print("\n--- 第 %d 回合开始 ---" % round_number)
 	planned_actions.clear()
-	current_player_index = 0
 
-func _on_round_ended(round_number: int) -> void:
+	# Planning 阶段：收集所有行动
+	print("\n>>> 阶段切换: Planning <<<")
+	await _planning_phase()
+
+	# Resolution 阶段：执行所有行动
+	print("\n>>> 阶段切换: Resolution <<<")
+	_resolution_phase()
+
 	print("--- 第 %d 回合结束 ---\n" % round_number)
 
-	# 检查战斗是否结束
-	if _check_battle_end():
-		return
-
-	# 继续下一回合
-	await get_tree().create_timer(0.5).timeout
-	turn_system.execute_round()
-
-func _on_phase_changed(phase_name: String) -> void:
-	print("\n>>> 阶段切换: %s <<<" % phase_name)
-
-	if phase_name == "Resolution":
-		_execute_resolution_phase()
-
-# ==================== Planning 阶段：收集行动 ====================
-
-## 收集单个玩家的行动
-func _collect_player_action(ctx: TurnContext, step: TurnStep) -> BaseAction:
-	# 在 simultaneous 模式下，这个回调会被调用一次
-	# 我们需要为所有玩家收集行动
+## Planning 阶段：收集所有行动
+func _planning_phase() -> void:
 	print("进入计划阶段 - 收集玩家行动")
 
+	# 收集玩家行动
 	for player in players:
 		if player.stats.is_alive:
-			var action = _get_player_action(player)
+			var action = await _get_player_action(player)
 			if action:
 				planned_actions.append(action)
 
-	# 返回 null，因为我们在 Resolution 阶段执行
-	return null
-
-## 获取单个玩家的行动（简化版：随机选择）
-func _get_player_action(player: Character) -> BaseAction:
-	print("[%s] 正在选择行动..." % player.character_name)
-
-	var valid_targets = monsters.filter(func(m): return m.stats.is_alive)
-	if valid_targets.is_empty():
-		return null
-
-	# 80% 概率攻击，20% 概率防御
-	if randf() < 0.8:
-		var target = valid_targets[randi() % valid_targets.size()]
-		print("[%s] 选择攻击 [%s]" % [player.character_name, target.character_name])
-		return AttackAction.new(player, target)
-	else:
-		print("[%s] 选择防御" % player.character_name)
-		return DefendAction.new(player)
-
-## 收集所有怪物的行动
-func _collect_ai_actions(ctx: TurnContext, step: TurnStep) -> Array:
+	# 收集怪物行动
 	print("收集怪物 AI 行动")
-
 	for monster in monsters:
 		if monster.stats.is_alive:
 			var action = _get_monster_action(monster)
@@ -129,25 +89,9 @@ func _collect_ai_actions(ctx: TurnContext, step: TurnStep) -> Array:
 				planned_actions.append(action)
 
 	print("计划阶段完成 - 收集到 %d 个行动" % planned_actions.size())
-	# 返回空数组，防止在 Planning 阶段执行
-	return []
 
-## 获取单个怪物的行动
-func _get_monster_action(monster: Monster) -> BaseAction:
-	var valid_targets = players.filter(func(p): return p.stats.is_alive)
-	if valid_targets.is_empty():
-		return null
-
-	var target = monster._select_target(valid_targets)
-	if target:
-		print("[%s] AI 选择攻击 [%s]" % [monster.character_name, target.character_name])
-		return AttackAction.new(monster, target)
-
-	return null
-
-# ==================== Resolution 阶段：执行行动 ====================
-
-func _execute_resolution_phase() -> void:
+## Resolution 阶段：执行所有行动
+func _resolution_phase() -> void:
 	print("\n进入执行阶段 - 按速度排序并执行所有行动")
 
 	# 按速度值排序（initiative 从高到低）
@@ -163,10 +107,66 @@ func _execute_resolution_phase() -> void:
 
 	print("\n执行阶段完成")
 
-func _execute_actions_batch(results: Array) -> void:
-	# 这个回调在 simultaneous 模式下不会被调用
-	# 我们在 _execute_resolution_phase 中手动执行
-	pass
+## 获取单个玩家的行动（使用 PlayerInputController）
+func _get_player_action(player: Character) -> BaseAction:
+	print("[%s] 等待玩家输入..." % player.character_name)
+
+	var valid_targets = monsters.filter(func(m): return m.stats.is_alive)
+	if valid_targets.is_empty():
+		return null
+
+	# 创建输入上下文
+	var context = InputContext.new(
+		player,
+		["attack", "defend"],  # 可用行动类型
+		valid_targets
+	)
+
+	# 请求玩家输入
+	player_input_controller.request_input(context)
+
+	# 等待输入完成
+	_current_action_data = null
+	await player_input_controller.input_completed
+
+	# 将 ActionData 转换为 BaseAction
+	var action = _convert_action_data_to_action(_current_action_data)
+
+	if action:
+		print("[%s] 选择了行动: %s" % [player.character_name, action.action_name])
+
+	return action
+
+## 玩家输入完成回调
+func _on_player_input_completed(action_data: ActionData) -> void:
+	_current_action_data = action_data
+
+## 将 ActionData 转换为 BaseAction
+func _convert_action_data_to_action(data: ActionData) -> BaseAction:
+	if not data:
+		return null
+
+	match data.action_type:
+		"attack":
+			return AttackAction.new(data.actor, data.target)
+		"defend":
+			return DefendAction.new(data.actor)
+		_:
+			push_error("Unknown action type: " + data.action_type)
+			return null
+
+## 获取单个怪物的行动
+func _get_monster_action(monster: Monster) -> BaseAction:
+	var valid_targets = players.filter(func(p): return p.stats.is_alive)
+	if valid_targets.is_empty():
+		return null
+
+	var target = monster._select_target(valid_targets)
+	if target:
+		print("[%s] AI 选择攻击 [%s]" % [monster.character_name, target.character_name])
+		return AttackAction.new(monster, target)
+
+	return null
 
 # ==================== 战斗结束判断 ====================
 
