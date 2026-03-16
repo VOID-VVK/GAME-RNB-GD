@@ -1,69 +1,45 @@
-[gd_scene load_steps=10 format=3 uid="uid://battle_stage_001"]
+[gd_scene format=3 uid="uid://cjuotnk27qleb"]
 
-[ext_resource type="Script" uid="uid://battle_stage_script_001" path="res://scripts/battle/battle_stage.gd" id="1_battle_stage"]
-[ext_resource type="PackedScene" uid="uid://player1_scene" path="res://scenes/player1.tscn" id="1_player1"]
-[ext_resource type="PackedScene" uid="uid://player2_scene" path="res://scenes/player2.tscn" id="2_player2"]
-[ext_resource type="PackedScene" uid="uid://player3_scene" path="res://scenes/player3.tscn" id="3_player3"]
-[ext_resource type="PackedScene" uid="uid://player4_scene" path="res://scenes/player4.tscn" id="4_player4"]
-[ext_resource type="PackedScene" uid="uid://monster1_scene" path="res://scenes/monster1.tscn" id="5_monster1"]
-[ext_resource type="PackedScene" uid="uid://monster2_scene" path="res://scenes/monster2.tscn" id="6_monster2"]
-[ext_resource type="PackedScene" uid="uid://monster3_scene" path="res://scenes/monster3.tscn" id="7_monster3"]
-[ext_resource type="PackedScene" uid="uid://monster4_scene" path="res://scenes/monster4.tscn" id="8_monster4"]
+[ext_resource type="Script" path="res://scripts/battle/battle_stage.gd" id="1_battle_stage"]
 
-[node name="BattleStage" type="Node2D"]
+[node name="BattleStage" type="Node2D" unique_id=1759433270]
 script = ExtResource("1_battle_stage")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1347387455]
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.168627, 0.168627, 0.168627, 1)
 
-[node name="Ground" type="ColorRect" parent="."]
+[node name="Ground" type="ColorRect" parent="." unique_id=911627451]
 offset_top = 448.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.290196, 0.290196, 0.290196, 1)
 
-[node name="PlayerPositions" type="Node2D" parent="."]
+[node name="PlayerPositions" type="Node2D" parent="." unique_id=807238754]
 
-[node name="Player1Pos" type="Marker2D" parent="PlayerPositions"]
+[node name="Player1Pos" type="Marker2D" parent="PlayerPositions" unique_id=1704411210]
 position = Vector2(150, 350)
 
-[node name="Player1" parent="PlayerPositions/Player1Pos" instance=ExtResource("1_player1")]
-
-[node name="Player2Pos" type="Marker2D" parent="PlayerPositions"]
+[node name="Player2Pos" type="Marker2D" parent="PlayerPositions" unique_id=1385773709]
 position = Vector2(250, 350)
 
-[node name="Player2" parent="PlayerPositions/Player2Pos" instance=ExtResource("2_player2")]
-
-[node name="Player3Pos" type="Marker2D" parent="PlayerPositions"]
+[node name="Player3Pos" type="Marker2D" parent="PlayerPositions" unique_id=262820742]
 position = Vector2(350, 350)
 
-[node name="Player3" parent="PlayerPositions/Player3Pos" instance=ExtResource("3_player3")]
-
-[node name="Player4Pos" type="Marker2D" parent="PlayerPositions"]
+[node name="Player4Pos" type="Marker2D" parent="PlayerPositions" unique_id=335191298]
 position = Vector2(450, 350)
 
-[node name="Player4" parent="PlayerPositions/Player4Pos" instance=ExtResource("4_player4")]
+[node name="MonsterPositions" type="Node2D" parent="." unique_id=1840115226]
 
-[node name="MonsterPositions" type="Node2D" parent="."]
-
-[node name="Monster1Pos" type="Marker2D" parent="MonsterPositions"]
+[node name="Monster1Pos" type="Marker2D" parent="MonsterPositions" unique_id=337144170]
 position = Vector2(700, 350)
 
-[node name="Monster1" parent="MonsterPositions/Monster1Pos" instance=ExtResource("5_monster1")]
-
-[node name="Monster2Pos" type="Marker2D" parent="MonsterPositions"]
+[node name="Monster2Pos" type="Marker2D" parent="MonsterPositions" unique_id=939292635]
 position = Vector2(800, 350)
 
-[node name="Monster2" parent="MonsterPositions/Monster2Pos" instance=ExtResource("6_monster2")]
-
-[node name="Monster3Pos" type="Marker2D" parent="MonsterPositions"]
+[node name="Monster3Pos" type="Marker2D" parent="MonsterPositions" unique_id=1877217352]
 position = Vector2(900, 350)
 
-[node name="Monster3" parent="MonsterPositions/Monster3Pos" instance=ExtResource("7_monster3")]
-
-[node name="Monster4Pos" type="Marker2D" parent="MonsterPositions"]
+[node name="Monster4Pos" type="Marker2D" parent="MonsterPositions" unique_id=358884362]
 position = Vector2(1000, 350)
-
-[node name="Monster4" parent="MonsterPositions/Monster4Pos" instance=ExtResource("8_monster4")]

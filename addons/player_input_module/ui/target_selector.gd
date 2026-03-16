@@ -37,6 +37,7 @@ func show_targets(targets: Array[Character], action_type: String) -> void:
 			target.stats.max_hp
 		]
 		button.custom_minimum_size = Vector2(200, 50)
+		button.set_meta("target", target)  # 存储目标引用供快捷键使用
 		button.pressed.connect(_on_target_button_pressed.bind(target))
 
 		# 添加快捷键提示

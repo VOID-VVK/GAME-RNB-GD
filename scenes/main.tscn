@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://c255tstp2so52"]
 
 [ext_resource type="Script" uid="uid://cw2ux1ecf7em8" path="res://scripts/main.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/debug/auto_test.gd" id="2"]
 
 [node name="Main" type="Node2D" unique_id=1689362663]
 script = ExtResource("1")
+
+[node name="AutoTest" type="Node" parent="."]
+script = ExtResource("2")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=796488349]
 

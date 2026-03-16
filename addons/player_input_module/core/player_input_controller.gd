@@ -38,8 +38,8 @@ var _config: Dictionary = {
 }
 
 func _ready() -> void:
-	# 延迟加载 UI（避免循环依赖）
-	call_deferred("_initialize_ui")
+	# 同步初始化 UI（不使用 call_deferred）
+	_initialize_ui()
 
 func _initialize_ui() -> void:
 	# 加载 BattleUI 场景
@@ -47,6 +47,10 @@ func _initialize_ui() -> void:
 	if battle_ui_scene:
 		_battle_ui = battle_ui_scene.instantiate()
 		add_child(_battle_ui)
+
+		# 等待 BattleUI 完全 ready
+		if not _battle_ui.is_node_ready():
+			await _battle_ui.ready
 
 		# 连接 UI 信号
 		if _battle_ui.has_signal("action_selected"):
@@ -65,16 +69,12 @@ func _initialize_ui() -> void:
 ## 请求玩家输入
 func request_input(context: InputContext) -> void:
 	if _state != State.IDLE:
-		push_warning("[PlayerInputController] Already waiting for input, ignoring request")
+		push_warning("[PlayerInputController] Already waiting for input (state=%s), ignoring request" % State.keys()[_state])
 		return
 
-	# 等待 UI 初始化完成
 	if not _battle_ui:
-		print("[PlayerInputController] Waiting for UI initialization...")
-		await get_tree().process_frame
-		if not _battle_ui:
-			push_error("[PlayerInputController] UI not initialized, cannot request input")
-			return
+		push_error("[PlayerInputController] UI not initialized, cannot request input")
+		return
 
 	_current_context = context
 	_state = State.WAITING_FOR_ACTION
@@ -83,9 +83,8 @@ func request_input(context: InputContext) -> void:
 	print("[PlayerInputController] Requesting input for %s" % context.actor.character_name)
 
 	# 显示行动选择面板
-	if _battle_ui:
-		_battle_ui.show_action_panel(context.available_actions, context.actor)
-		print("[PlayerInputController] Action panel displayed")
+	_battle_ui.show_action_panel(context.available_actions, context.actor)
+	print("[PlayerInputController] Action panel displayed")
 
 ## 取消当前输入
 func cancel_input() -> void:
@@ -127,6 +126,7 @@ func _on_action_selected(action_type: String) -> void:
 ## 目标选择回调
 func _on_target_selected(target: Character) -> void:
 	if _state != State.WAITING_FOR_TARGET:
+		print("[PlayerInputController] WARNING: Received target_selected but state is %s, ignoring" % State.keys()[_state])
 		return
 
 	print("[PlayerInputController] Target selected: %s" % target.character_name)
@@ -138,8 +138,6 @@ func _on_input_cancelled() -> void:
 
 ## 完成输入
 func _complete_input(target: Character) -> void:
-	_state = State.COMPLETED
-
 	# 构造 ActionData
 	var action_data = ActionData.new(_selected_action_type, _current_context.actor, target)
 
@@ -149,11 +147,11 @@ func _complete_input(target: Character) -> void:
 	if _battle_ui:
 		_battle_ui.hide_all()
 
+	# 先重置状态（在发送信号之前，避免信号处理中的新请求被拒绝）
+	_reset_state()
+
 	# 发送信号
 	input_completed.emit(action_data)
-
-	# 重置状态
-	_reset_state()
 
 ## 重置状态
 func _reset_state() -> void:

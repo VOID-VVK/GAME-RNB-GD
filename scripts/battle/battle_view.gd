@@ -17,12 +17,19 @@ func setup_battle(players: Array[Character], monsters: Array[Character]) -> void
 		child.queue_free()
 	character_displays.clear()
 
+	# 获取屏幕尺寸并计算居中位置
+	var viewport_size = get_viewport_rect().size
+	var center_x = viewport_size.x / 2
+	var center_y = viewport_size.y / 2
+
 	# 创建玩家显示（左侧）
-	var player_x_start = 150
-	var player_spacing = 100
+	var player_spacing = 120
+	var total_player_width = (players.size() - 1) * player_spacing
+	var player_x_start = center_x - 350 - total_player_width / 2
+
 	for i in players.size():
 		var display = character_display_scene.instantiate()
-		display.position = Vector2(player_x_start + i * player_spacing, 350)
+		display.position = Vector2(player_x_start + i * player_spacing, center_y)
 		add_child(display)
 		display.setup(players[i])
 		character_displays[players[i]] = display
@@ -31,11 +38,13 @@ func setup_battle(players: Array[Character], monsters: Array[Character]) -> void
 		players[i].stats.hp_changed.connect(_on_character_hp_changed.bind(players[i]))
 
 	# 创建怪物显示（右侧）
-	var monster_x_start = 700
-	var monster_spacing = 100
+	var monster_spacing = 120
+	var total_monster_width = (monsters.size() - 1) * monster_spacing
+	var monster_x_start = center_x + 350 - total_monster_width / 2
+
 	for i in monsters.size():
 		var display = character_display_scene.instantiate()
-		display.position = Vector2(monster_x_start + i * monster_spacing, 350)
+		display.position = Vector2(monster_x_start + i * monster_spacing, center_y)
 		add_child(display)
 		display.setup(monsters[i])
 		character_displays[monsters[i]] = display
