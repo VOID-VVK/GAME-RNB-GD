@@ -19,16 +19,16 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[display]
-
-window/size/mode=2
-
 [autoload]
 
 TurnBasedSystem="*res://addons/turn_based_system/turn_based_system.gd"
 EasyTestBridge="*res://addons/easy_test_bridge/easy_test_bridge.gd"
 EasySave="*res://addons/EasySave/easy_save.gd"
 EasyMultiplayer="*uid://dhks55rqo18nu"
+
+[display]
+
+window/size/mode=2
 
 [dotnet]
 

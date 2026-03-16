@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://town_scene_001"]
+
+[ext_resource type="Script" path="res://scripts/town.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://npc_villager_001" path="res://scenes/npc/npc_villager.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://npc_merchant_001" path="res://scenes/npc/npc_merchant.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://npc_quest_giver_001" path="res://scenes/npc/npc_quest_giver.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://npc_guard_001" path="res://scenes/npc/npc_guard.tscn" id="5"]
+
+[node name="Town" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.4, 0.6, 0.4, 1)
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Villager1" parent="NPCs" instance=ExtResource("2")]
+position = Vector2(300, 400)
+
+[node name="Villager2" parent="NPCs" instance=ExtResource("2")]
+position = Vector2(500, 350)
+
+[node name="Merchant" parent="NPCs" instance=ExtResource("3")]
+position = Vector2(700, 450)
+
+[node name="QuestGiver" parent="NPCs" instance=ExtResource("4")]
+position = Vector2(900, 400)
+
+[node name="Guard1" parent="NPCs" instance=ExtResource("5")]
+position = Vector2(200, 300)
+
+[node name="Guard2" parent="NPCs" instance=ExtResource("5")]
+position = Vector2(1100, 300)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+text = "城镇"
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnterDungeonButton" type="Button" parent="UI/CenterContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "进入迷宫"
+
+[connection signal="pressed" from="UI/CenterContainer/EnterDungeonButton" to="." method="_on_enter_dungeon_button_pressed"]
