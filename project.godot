@@ -20,9 +20,6 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
-
-TurnBasedSystem="*res://addons/turn_based_system/turn_based_system.gd"
-EasyTestBridge="*res://addons/easy_test_bridge/easy_test_bridge.gd"
 EasySave="*res://addons/EasySave/easy_save.gd"
 EasyMultiplayer="*uid://dhks55rqo18nu"
 
@@ -36,7 +33,7 @@ project/assembly_name="GAME-RNB-GD"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/easy_multiplayer_gd/plugin.cfg", "res://addons/easy_test_bridge/plugin.cfg", "res://addons/EasySave/plugin.cfg", "res://addons/turn_based_system/plugin.cfg")
+enabled=PackedStringArray("res://addons/easy_multiplayer_gd/plugin.cfg", "res://addons/easy_test_bridge/plugin.cfg", "res://addons/EasySave/plugin.cfg")
 
 [rendering]
 

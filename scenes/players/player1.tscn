@@ -1,18 +1,17 @@
-[gd_scene format=3 uid="uid://buv53412v7fu3"]
+[gd_scene load_steps=2 format=3 uid="uid://buv53412v7fu3"]
+
+[ext_resource type="Texture2D" uid="uid://c5yjxqxqxqxqx" path="res://assets/sprites/heros/man_1/man_idle.png" id="1"]
 
 [node name="Player1" type="Node2D" unique_id=943002704]
 
-[node name="Sprite" type="ColorRect" parent="." unique_id=739316292]
-offset_left = -20.0
-offset_top = -30.0
-offset_right = 20.0
-offset_bottom = 30.0
-color = Color(0.2, 0.6, 1, 1)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=739316292]
+texture = ExtResource("1")
+scale = Vector2(2, 2)
 
 [node name="NameLabel" type="Label" parent="." unique_id=2048246551]
 offset_left = -30.0
 offset_top = -50.0
 offset_right = 30.0
 offset_bottom = -30.0
-text = "玩家1"
+text = "剑士"
 horizontal_alignment = 1
