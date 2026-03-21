@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://monster1_scene"]
+[gd_scene load_steps=2 format=3 uid="uid://bupeabkrjhjy1"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/e_01_idle.png" id="1"]
+[ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="1"]
 
 [node name="Monster1" type="Node2D"]
+script = ExtResource("1")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1")
 scale = Vector2(2, 2)
 
 [node name="NameLabel" type="Label" parent="."]
@@ -15,3 +15,11 @@ offset_right = 30.0
 offset_bottom = -30.0
 text = "史莱姆"
 horizontal_alignment = 1
+
+[node name="HPBarContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0

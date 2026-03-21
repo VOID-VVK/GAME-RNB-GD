@@ -1,18 +1,29 @@
-[gd_scene format=3 uid="uid://player4_scene"]
+[gd_scene format=3 uid="uid://b2si5q3fbuws8"]
 
-[node name="Player4" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://c2ior7ukuj5i2" path="res://assets/sprites/heros/girl_pois/pois_idle_0.png" id="1"]
+[ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="2"]
 
-[node name="Sprite" type="ColorRect" parent="."]
-offset_left = -20.0
-offset_top = -30.0
-offset_right = 20.0
-offset_bottom = 30.0
-color = Color(0.2, 0.6, 1, 1)
+[node name="Player4" type="Node2D" unique_id=1869742484]
+script = ExtResource("2")
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=546189581]
+scale = Vector2(0.784, 0.784)
+texture = ExtResource("1")
+hframes = 7
+vframes = 7
+
+[node name="NameLabel" type="Label" parent="." unique_id=1122199113]
 offset_left = -30.0
 offset_top = -50.0
 offset_right = 30.0
 offset_bottom = -30.0
-text = "玩家4"
+text = "牧师"
 horizontal_alignment = 1
+
+[node name="HPBarContainer" type="Control" parent="." unique_id=1623215328]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0

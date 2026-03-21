@@ -1,17 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://monster2_scene"]
+[gd_scene format=3 uid="uid://c2cqdsxe0ya6q"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/e_02_idle.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://saiumj7eoo35" path="res://assets/sprites/enemies/e_02_idle.png" id="1"]
+[ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="2"]
 
-[node name="Monster2" type="Node2D"]
+[node name="Monster2" type="Node2D" unique_id=1143369063]
+script = ExtResource("2")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=860681693]
+scale = Vector2(0.534, 0.534)
 texture = ExtResource("1")
-scale = Vector2(2, 2)
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="." unique_id=928287470]
 offset_left = -30.0
 offset_top = -50.0
 offset_right = 30.0
 offset_bottom = -30.0
 text = "哥布林"
 horizontal_alignment = 1
+
+[node name="HPBarContainer" type="Control" parent="." unique_id=1848823557]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0

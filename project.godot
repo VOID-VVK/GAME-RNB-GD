@@ -20,12 +20,14 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
+
 EasySave="*res://addons/EasySave/easy_save.gd"
 EasyMultiplayer="*uid://dhks55rqo18nu"
 
 [display]
 
 window/size/mode=2
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

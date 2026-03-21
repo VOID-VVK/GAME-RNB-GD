@@ -1,17 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://buv53412v7fu3"]
+[gd_scene format=3 uid="uid://buv53412v7fu3"]
 
-[ext_resource type="Texture2D" uid="uid://c5yjxqxqxqxqx" path="res://assets/sprites/heros/man_1/man_idle.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dt41e050u5nn6" path="res://assets/sprites/heros/man_1/man_idle.png" id="1"]
+[ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="2"]
 
-[node name="Player1" type="Node2D" unique_id=943002704]
+[node name="Player1" type="Node2D" unique_id=1029047653]
+script = ExtResource("2")
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=739316292]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1511042571]
+scale = Vector2(0.728, 0.728)
 texture = ExtResource("1")
-scale = Vector2(2, 2)
+hframes = 7
+vframes = 6
 
-[node name="NameLabel" type="Label" parent="." unique_id=2048246551]
+[node name="NameLabel" type="Label" parent="." unique_id=1460538410]
 offset_left = -30.0
 offset_top = -50.0
 offset_right = 30.0
 offset_bottom = -30.0
-text = "剑士"
+text = "战士"
 horizontal_alignment = 1
+
+[node name="HPBarContainer" type="Control" parent="." unique_id=1806474840]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0

@@ -1,17 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://monster3_scene"]
+[gd_scene format=3 uid="uid://b7p7f3824umfa"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/monster/monster_fire_blue_0.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://c7cgwdfvpqkr2" path="res://assets/sprites/monsters/monster_fire_blue_0.png" id="1"]
+[ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="2"]
 
-[node name="Monster3" type="Node2D"]
+[node name="Monster3" type="Node2D" unique_id=1388955737]
+script = ExtResource("2")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=876999757]
+scale = Vector2(1.34, 1.34)
 texture = ExtResource("1")
-scale = Vector2(2, 2)
+hframes = 6
+vframes = 2
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="." unique_id=433426992]
 offset_left = -30.0
 offset_top = -50.0
 offset_right = 30.0
 offset_bottom = -30.0
 text = "火焰精灵"
 horizontal_alignment = 1
+
+[node name="HPBarContainer" type="Control" parent="." unique_id=859691851]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -50.0
+offset_top = 35.0
+offset_right = 50.0
+offset_bottom = 65.0

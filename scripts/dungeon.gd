@@ -35,4 +35,4 @@ func update_steps_label() -> void:
 func trigger_encounter() -> void:
 	print("遇到怪物！进入战斗")
 	# 切换到战斗场景
-	get_tree().change_scene_to_file("res://scenes/battle.tscn")
+	get_tree().change_scene_to_file("res://scenes/battle/battle_stage.tscn")
