@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bupeabkrjhjy1"]
+[gd_scene format=3 uid="uid://bupeabkrjhjy1"]
 
 [ext_resource type="Script" uid="uid://byhejc0r022e8" path="res://addons/player_input_module/ui/character_display.gd" id="1"]
 
