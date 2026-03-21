@@ -29,21 +29,21 @@ player_input.input_completed.connect(_on_input_completed)
 
 # 3. 请求玩家输入
 func request_player_action(actor: Character, targets: Array[Character]):
-    var context = InputContext.new(
-        actor,
-        ["attack", "defend"],  # 可用行动类型
-        targets                # 有效目标列表
-    )
-    player_input.request_input(context)
+	var context = InputContext.new(
+		actor,
+		["attack", "defend"],  # 可用行动类型
+		targets                # 有效目标列表
+	)
+	player_input.request_input(context)
 
-    # 等待输入完成
-    var action_data = await player_input.input_completed
-    return action_data
+	# 等待输入完成
+	var action_data = await player_input.input_completed
+	return action_data
 
 # 4. 处理输入结果
 func _on_input_completed(action_data: ActionData):
-    print("玩家选择: %s" % action_data.action_type)
-    print("目标: %s" % action_data.target.character_name if action_data.target else "无")
+	print("玩家选择: %s" % action_data.action_type)
+	print("目标: %s" % action_data.target.character_name if action_data.target else "无")
 ```
 
 ### 配置选项
@@ -51,10 +51,10 @@ func _on_input_completed(action_data: ActionData):
 ```gdscript
 # 配置 UI 风格
 player_input.configure({
-    "layout": "modern",           # "classic", "modern", "minimal"
-    "show_turn_order": true,      # 是否显示行动顺序条
-    "show_status_panels": true,   # 是否显示角色状态面板
-    "enable_shortcuts": true,     # 是否启用键盘快捷键
+	"layout": "modern",           # "classic", "modern", "minimal"
+	"show_turn_order": true,      # 是否显示行动顺序条
+	"show_status_panels": true,   # 是否显示角色状态面板
+	"enable_shortcuts": true,     # 是否启用键盘快捷键
 })
 
 # 设置自定义主题
@@ -117,24 +117,24 @@ player_input.set_ui_theme(custom_theme)
 ```gdscript
 # 1. 在 available_actions 中添加新类型
 var context = InputContext.new(
-    actor,
-    ["attack", "defend", "skill", "item"],  # 新增 skill 和 item
-    targets
+	actor,
+	["attack", "defend", "skill", "item"],  # 新增 skill 和 item
+	targets
 )
 
 # 2. 在 ActionPanel 中会自动生成对应按钮
 
 # 3. 在你的战斗管理器中处理新的 action_type
 func convert_action_data(data: ActionData) -> BaseAction:
-    match data.action_type:
-        "attack":
-            return AttackAction.new(data.actor, data.target)
-        "defend":
-            return DefendAction.new(data.actor)
-        "skill":
-            return SkillAction.new(data.actor, data.target, data.skill_id)
-        "item":
-            return ItemAction.new(data.actor, data.target, data.item_id)
+	match data.action_type:
+		"attack":
+			return AttackAction.new(data.actor, data.target)
+		"defend":
+			return DefendAction.new(data.actor)
+		"skill":
+			return SkillAction.new(data.actor, data.target, data.skill_id)
+		"item":
+			return ItemAction.new(data.actor, data.target, data.item_id)
 ```
 
 ### 替换输入源
@@ -145,17 +145,17 @@ class_name NetworkInputController
 extends PlayerInputController
 
 func request_input(context: InputContext) -> void:
-    send_to_network(context)
-    var response = await network_response_received
-    input_completed.emit(response)
+	send_to_network(context)
+	var response = await network_response_received
+	input_completed.emit(response)
 
 # AI 输入
 class_name AIInputController
 extends PlayerInputController
 
 func request_input(context: InputContext) -> void:
-    var action_data = ai_decide(context)
-    input_completed.emit(action_data)
+	var action_data = ai_decide(context)
+	input_completed.emit(action_data)
 ```
 
 ## 许可证

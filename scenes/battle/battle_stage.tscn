@@ -27,7 +27,6 @@ offset_bottom = 648.0
 color = Color(0.290196, 0.290196, 0.290196, 1)
 
 [node name="Map" type="Sprite2D" parent="." unique_id=1743351335]
-visible = false
 position = Vector2(571, 325)
 scale = Vector2(0.8953125, 0.9027778)
 texture = ExtResource("10_dxsmd")
@@ -40,14 +39,14 @@ position = Vector2(389, 377)
 [node name="Player1" parent="PlayerPositions/Player1Pos" unique_id=453847967 instance=ExtResource("2")]
 
 [node name="Player2Pos" type="Marker2D" parent="PlayerPositions" unique_id=1241096657]
-position = Vector2(235, 274)
-
-[node name="Player2" parent="PlayerPositions/Player2Pos" unique_id=1556699987 instance=ExtResource("3")]
-
-[node name="Player3Pos" type="Marker2D" parent="PlayerPositions" unique_id=256087388]
 position = Vector2(351, 408)
 
-[node name="Player3" parent="PlayerPositions/Player3Pos" unique_id=1713796509 instance=ExtResource("4")]
+[node name="Player3" parent="PlayerPositions/Player2Pos" unique_id=1713796509 instance=ExtResource("4")]
+
+[node name="Player3Pos" type="Marker2D" parent="PlayerPositions" unique_id=256087388]
+position = Vector2(235, 274)
+
+[node name="Player2" parent="PlayerPositions/Player3Pos" unique_id=1556699987 instance=ExtResource("3")]
 
 [node name="Player4Pos" type="Marker2D" parent="PlayerPositions" unique_id=2145937254]
 position = Vector2(171, 393)

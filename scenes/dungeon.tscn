@@ -1,32 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://dungeon_scene_001"]
+[gd_scene format=3 uid="uid://dpywxya4xoo6k"]
 
-[ext_resource type="Script" path="res://scripts/dungeon.gd" id="1"]
+[ext_resource type="Script" uid="uid://druwy5v0c3flk" path="res://scripts/dungeon.gd" id="1"]
 
-[node name="Dungeon" type="Node2D"]
+[node name="Dungeon" type="Node2D" unique_id=1475151506]
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=743038271]
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.2, 0.2, 0.3, 1)
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=161274447]
 
-[node name="Label" type="Label" parent="UI"]
+[node name="Label" type="Label" parent="UI" unique_id=1845508455]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 200.0
 offset_bottom = 60.0
 text = "迷宫"
 
-[node name="StepsLabel" type="Label" parent="UI"]
+[node name="StepsLabel" type="Label" parent="UI" unique_id=1996467553]
 offset_left = 20.0
 offset_top = 60.0
 offset_right = 200.0
 offset_bottom = 100.0
 text = "步数: 0"
 
-[node name="HintLabel" type="Label" parent="UI"]
+[node name="HintLabel" type="Label" parent="UI" unique_id=2092462632]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
